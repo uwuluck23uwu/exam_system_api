@@ -1,0 +1,80 @@
+EXAM_SYSTEM_API/
+│
+├── src/
+│   ├── MyProject.API              -> ASP.NET Core Web API Layer (Controller)
+│   ├── MyProject.Application      -> Business Logic Layer (UseCases, DTOs)
+│   ├── MyProject.Domain           -> Entity, Interface
+│   └── MyProject.Infrastructure   -> EF Core, Dapper, External Services
+│
+├── tests/
+│   └── MyProject.Tests            -> Unit Test Layer
+
+
+EXAM_SYSTEM_API/
+├── src/API/
+│   ├── appsettings.json                <-- ค่าพื้นฐาน
+│   ├── appsettings.Development.json    <-- สำหรับ dev
+│   ├── appsettings.Production.json     <-- สำหรับ production
+│   ├── launchSettings.json             <-- ระบุ ASPNETCORE_ENVIRONMENT
+
+
+
+Application/
+├── Interfaces/                  ← ถ้าอยากรวม interfaces ทั้งหมด
+│   └── IExamSetService.cs
+│   └── IGenericCrudService.cs
+│
+├── Services/
+│   ├── ExamSetService.cs
+│   ├── GenericCrudService.cs
+│   └── Interfaces/             ← หรือแยกแบบนี้เฉพาะ service
+│       └── IExamSetService.cs
+│
+├── DTOs/
+├── UseCases/                   ← ถ้าใช้ pattern CQRS หรือ MediatR
+
+
+1. การตั้งค่า  Environment Variable  สำหรับ window
+set ASPNETCORE_ENVIRONMENT=Development
+set ASPNETCORE_ENVIRONMENT=Production
+
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+$env:ASPNETCORE_ENVIRONMENT
+
+2. การ switch environment
+# รันแบบ Development (default)
+dotnet run
+
+# รันแบบ Production
+ASPNETCORE_ENVIRONMENT=Production dotnet run
+
+cd src/API dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+cd src/API
+dotnet add reference ../Infrastructure/EXAM_SYSTEM_API.Infrastructure.csproj
+dotnet add reference ../Application/EXAM_SYSTEM_API.Application.csproj
+
+
+dotnet tool install --global dotnet-ef
+dotnet add src/Infrastructure package Microsoft.EntityFrameworkCore.Design
+
+ติดตั้งที่ root
+dotnet add src/Infrastructure package Microsoft.EntityFrameworkCore
+dotnet add src/Infrastructure package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add src/Infrastructure package Microsoft.EntityFrameworkCore.Design
+
+
+#การสร้าง scaffold
+1. ให้รันคำสั่งจาก root (EXAM_SYSTEM_API/)
+2. รันคำสั่งสำหรับสร้าง scaffold
+dotnet ef dbcontext scaffold "Name=ExamSystemConnection" Microsoft.EntityFrameworkCore.SqlServer --context ExamSystemDbContext --output-dir ../Domain/Entities --context-dir Persistence --namespace EXAM_SYSTEM_API.Domain.Entities --context-namespace EXAM_SYSTEM_API.Infrastructure.Persistence --project src/Infrastructure --startup-project src/API --force
+
+
+dotnet build EXAM_SYSTEM_API.sln
+
+รันในโฟลเดอร์ API
+dotnet add src/API package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+dotnet add src/API package Newtonsoft.Json
+dotnet remove package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+

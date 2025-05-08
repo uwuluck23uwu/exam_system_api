@@ -1,0 +1,109 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "ExamSystemDbContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Persistence",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "EXAM_SYSTEM_API.Infrastructure",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[activity_log]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_choices]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_enrollments]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_final_results]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_instructions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_schedules]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_sets]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_taken]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_taken_detail]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_exam_user_selection]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_gcio_candidates]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_generated_exam_parts]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_generated_exam_questions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_multiple_choice_questions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[es_questions]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[users]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}
