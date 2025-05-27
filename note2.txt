@@ -1,0 +1,64 @@
+EXAM_SYSTEM_API/
+├── src/
+│   ├── API/                     ← Layer Presentation (Web API)
+│   ├── Application/             ← Layer Application/Use Cases
+│   ├── Domain/                  ← Layer Business Rules (Entities, Interfaces)
+│   └── Infrastructure/          ← Layer Infrastructure (DB, Repos)
+└── tests/                       ← สำหรับ Unit/Integration Tests
+
+Application/
+└── Shared/
+    ├── PaginationResponse.cs
+    └── Responses/
+        ├── ResponseBase.cs
+        ├── ResponseSuccess.cs
+        └── ResponseErrorMessages.cs
+
+🧩 รายละเอียดแต่ละ Layer
+✅ 1. API/ (Presentation Layer)
+หน้าที่: เป็น “จุดเริ่มต้น” ของโปรแกรม และ รับ-ตอบ API
+
+ไฟล์สำคัญ:
+
+Program.cs: ตั้งค่า DI, Middleware, Routing
+Controllers/: จัดการ HTTP Request (เช่น ExamSetController)
+appsettings.json: เก็บคอนฟิกต่างๆ เช่น DB Connection
+
+✅ ขึ้นกับ Application และ Infrastructure
+✅ 2. Application/ (Use Case Layer)
+หน้าที่: จัดการ business logic ที่เกี่ยวกับ use case เช่น:
+
+ExamSetService
+GenericCrudService
+Interfaces/: interface ของ service (เช่น IGenericCrudService)
+Services/: logic ที่นำไปใช้ใน controller หรือ background task
+
+✅ ขึ้นกับ Domain
+🚫 ไม่ควรขึ้นกับ Infrastructure หรือ Database
+✅ 3. Domain/ (Core Business Layer)
+หน้าที่: เก็บ Entities ที่แทนข้อมูลหลัก เช่น ExamSet
+เก็บ interface เช่น IExamSetRepository
+✅ เป็น Layer ที่ไม่ขึ้นกับใครเลย
+เป็น “ศูนย์กลาง” ของระบบ
+✅ 4. Infrastructure/ (Implementation Layer)
+หน้าที่: จัดการงานที่เชื่อมกับ “โลกภายนอก” เช่น:
+
+ฐานข้อมูล → ExamSystemDbContext
+Repository → ExamSetRepository
+Persistence/: เก็บสิ่งที่เกี่ยวข้องกับ database
+ใช้ EF Core (Entity Framework) และ Implement interface จาก Domain
+
+✅ ขึ้นกับ Domain
+✅ ถูกเรียกจาก API และ Application
+🔗 ความสัมพันธ์แต่ละ Layer
+
+     [ API (Presentation) ]
+              ↓
+     [ Application Layer ]
+              ↓
+     [   Domain Layer   ]
+              ↑
+     [ Infrastructure (EF, Repo, etc.) ]
+🔁 API → Application → Domain
+🔁 Infrastructure → Implements Domain Interfaces
+
