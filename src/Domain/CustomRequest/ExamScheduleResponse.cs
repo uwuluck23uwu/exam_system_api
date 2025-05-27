@@ -38,5 +38,15 @@
         /// </summary>
         public string Status { get; set; }
         public string StatusName { get; set; }
+
+        public List<ExamRescheduleResponse> Reschedules { get; set; }
+    }
+
+    public class ExamRescheduleResponse
+    {
+        public string ScheduleDate { get; set; }
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
+        public string? Reason { get; set; }
     }
 }

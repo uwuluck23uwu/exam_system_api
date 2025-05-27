@@ -60,7 +60,7 @@ namespace EXAM_SYSTEM_API.Application.Services
                 {
                     if (item.Status != "1")
                     {
-                        item.Status = "2";
+                        item.Status = "3";
                     }
                 }
             }
@@ -84,6 +84,30 @@ namespace EXAM_SYSTEM_API.Application.Services
                 .Select(s => s.EnrollmentId)
                 .Distinct()
                 .ToList();
+
+            var scheduleIds = schedulesPage.Select(s => s.ScheduleId).ToList();
+
+            var reschedules = await _service.GetService<EsExamReschedule>()
+                .GetAll()
+                .Where(r => scheduleIds.Contains(r.ScheduleId))
+                .ToListAsync();
+
+            var rescheduleLookup = reschedules
+                .GroupBy(r => r.ScheduleId)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.OrderByDescending(r => r.CreatedDate)
+                    .Select(r => new ExamRescheduleResponse
+                    {
+                        ScheduleDate = _cultureInfoTHEN.FormatDateTH(
+                            _convertDate.DateOnlyToDateTime(r.ScheduleDate), "dd/MM/yyyy TH "),
+                        StartTime = r.StartTime,
+                        EndTime = r.EndTime,
+                        Reason = r.Reason
+                    })
+                    .ToList()
+                );
+
 
             // สร้าง dictionary สำหรับ ExamSet
             var examSetMap = examSets.ToDictionary(x => x.ExamsetId, x => new ExamSetResponse
@@ -124,7 +148,8 @@ namespace EXAM_SYSTEM_API.Application.Services
                             {
                                 ScheduleId = s.ScheduleId,
                                 PartNo = s.PartNo,
-                                ScheduleDate = _cultureInfoTHEN.FormatDateTH(_convertDate.DateOnlyToDateTime(s.ScheduleDate), "dd/MM/yyyy TH "),
+                                ScheduleDate = _cultureInfoTHEN.FormatDateTH(
+                                _convertDate.DateOnlyToDateTime(s.ScheduleDate), "dd/MM/yyyy TH "),
                                 StartTime = s.StartTime,
                                 EndTime = s.EndTime,
                                 TotalQuestions = s.TotalQuestions,
@@ -135,8 +160,12 @@ namespace EXAM_SYSTEM_API.Application.Services
                                     "1" => "สอบแล้ว",
                                     "2" => "เลื่อนเวลาสอบ",
                                     _ => "ไม่ได้สอบ"
-                                }
-                            }).ToList()
+                                },
+                                Reschedules = rescheduleLookup.ContainsKey(s.ScheduleId)
+                                ? rescheduleLookup[s.ScheduleId]
+                                : new List<ExamRescheduleResponse>()
+                            })
+                            .ToList()
                     }).ToList()
                 })
                 .ToList();
@@ -216,7 +245,6 @@ namespace EXAM_SYSTEM_API.Application.Services
         {
             try
             {
-
                 var reSchedule = await _service.GetService<EsExamSchedule>().GetAll().Where(a => a.ScheduleId == req.ScheduleId).FirstOrDefaultAsync();
                 if (reSchedule == null)
                 {
