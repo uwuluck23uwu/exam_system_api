@@ -129,6 +129,5 @@ namespace EXAM_SYSTEM_API.API.Controllers
         {
             return await _helper.HandleRequest(() => _askService.GetAllExamHistory(req));
         }
-
     }
 }
